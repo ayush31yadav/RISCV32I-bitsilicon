@@ -35,4 +35,3 @@ clean:
 waves: $(SIM)
 	$(VVP) $(SIM)
 	gtkwave $(TOP).vcd &
-

@@ -1,13 +1,12 @@
 // barrel_shifter.v
 // Logarithmic Barrel Shifter for RV32I SLL / SRL / SRA
-//
-// Target: 100% synthesizable in Vivado (combinational only)
+
 // Architecture: 5-layer (log2(32)) 2-to-1 MUX barrel for right shifts.
 //               SLL is implemented by bit-reverse + right-logical + bit-reverse.
 //               This minimizes propagation delay vs. a naive shift operator
 //               or a linear (32:1 mux per bit) barrel.
 //
-// Ports (as specified):
+// Ports 
 //   data_in     : 32-bit value from rs1
 //   shift_amount: 5-bit value (rs2[4:0] or shamt field)
 //   funct3      : 3-bit (0b001 = SLL, 0b101 = SRL/SRA)
@@ -31,7 +30,7 @@ module barrel_shifter (
 );
 
   // ========================================================================
-  // Instruction decode (exact per RISC-V RV32I)
+  // Instruction decode 
   // ========================================================================
   wire is_sll = (funct3 == 3'b001);
   wire is_srl = (funct3 == 3'b101) && (funct7[5] == 1'b0);
@@ -39,7 +38,6 @@ module barrel_shifter (
 
   // ========================================================================
   // Bit reversal for SLL (left shift = reverse + logical right shift + reverse)
-  // These are pure wiring (free in synthesis)
   // ========================================================================
   wire [31:0] reversed_in;
   genvar r;
@@ -97,8 +95,7 @@ module barrel_shifter (
   endgenerate
 
   // ========================================================================
-  // Output selection with explicit fallback (guarantees no latch inference
-  // even if this module is instantiated inside a larger always block)
+  // Output selection with explicit fallback
   // ========================================================================
   assign data_out = is_sll ? reversed_out :
                     (is_srl || is_sra) ? right_shifted_result :
