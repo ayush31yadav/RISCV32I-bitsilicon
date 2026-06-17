@@ -10,12 +10,12 @@
 // SLTI   I   0010011   010       rs1 < imm
 // SLTIU  I   0010011   011       rs1 < imm U
 // ---------------------------------------
-// BEQ    B
-// BNE    B
-// BLT    B
-// BGE    B
-// BLTU   B
-// BGEU   B
+// BEQ    B             000
+// BNE    B             001
+// BLT    B             100
+// BGE    B             101
+// BLTU   B             110
+// BGEU   B             111
 
 module fn_setUnit (
     input  wire [31:0] rs1, rs2,
@@ -53,18 +53,45 @@ module fn_setUnit (
         .LU(LU)
     );
 
+    wire res;
     
-    mux2 #(.N(1)) re_select (
+    mux2 #(.N(1)) res_select (
         .d0(LS), .d1(LU),
         .sel(funct3_0),
-        .Y(result)
+        .Y(res)
     );
+
+    assign result = {31'b0, res};
 
 endmodule
 
 module fn_branchUnit (
-
+    input  wire [31:0] rs1, rs2,
+    input  wire  [2:0] funct3,
+    output wire        branch // 1 is BRANCH TAKEN
 );
 
+    wire LS, LU, EQ;
+
+    comparator C (
+        .A(rs1),
+        .B(rs2),
+        .LS(LS),
+        .LU(LU),
+        .EQ(EQ)
+    );
+    
+    mux8 #(.N(1)) result_select (
+        .d0(EQ), 
+        .d1(~EQ), 
+        .d2(1'b0), 
+        .d3(1'b0), 
+        .d4(LS), 
+        .d5(~LS), 
+        .d6(LU), 
+        .d7(~LU),
+        .sel(funct3),
+        .Y(branch)
+    );
 
 endmodule
