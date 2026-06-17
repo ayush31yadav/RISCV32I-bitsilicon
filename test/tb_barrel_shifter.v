@@ -24,8 +24,10 @@ module tb_barrel_shifter;
   integer errors = 0;
   integer tests  = 0;
 
-  // Helper task - use SV string type for reliable %s formatting
-  task check(input [31:0] expected, input string name);
+// Helper task - Changed from SystemVerilog string to standard Verilog reg array
+  task check;
+    input [31:0] expected;
+    input [399:0] name; // 50 characters * 8 bits = 400 bits total capacity
     begin
       tests = tests + 1;
       #1;  // let combo logic settle
