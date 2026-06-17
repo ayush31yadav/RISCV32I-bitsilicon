@@ -1,3 +1,5 @@
+`timescale 1ns/1ps
+
 module Comparator(
     input  wire [31:0] A, B,
     output wire LS,          //high if lesser signed
