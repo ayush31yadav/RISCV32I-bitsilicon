@@ -31,7 +31,6 @@ $(SIM): $(DUT) $(TB_FILE)
 clean:
 	rm -f $(SIM) *.vcd tb_sim
 
-# Optional VCD (add $dumpfile/$dumpvars in tb if you want waves)
 waves: $(SIM)
 	$(VVP) $(SIM)
 	gtkwave $(TOP).vcd &
