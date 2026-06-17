@@ -7,7 +7,7 @@
 //  ADDI    0010011               A+imm12
 // AUIPC    0010111               PC+imm20
 module fn_adder (
-    input  wire [31:0] A, B, PC,
+    input  wire [31:0] rs1, rs2, PC,
     input  wire [11:0] imm12,
     input  wire [19:0] imm20,
     input  wire        op2,          // OPCODE[2]
@@ -28,13 +28,13 @@ module fn_adder (
     );
     
     mux2 #(.N(32)) v1_select (
-        .d0(A), .d1(PC),
+        .d0(rs1), .d1(PC),
         .sel(op2),
         .Y(v1)
     );
 
     mux2 #(.N(32)) v2_select (
-        .d0(imm), .d1(B),
+        .d0(imm), .d1(rs2),
         .sel(op5),
         .Y(v2)
     );

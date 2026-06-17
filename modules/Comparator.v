@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 
-module Comparator(
+module comparator(
     input  wire [31:0] A, B,
     output wire LS,          //high if lesser signed
     output wire LU,          //high if lesser unsigned
