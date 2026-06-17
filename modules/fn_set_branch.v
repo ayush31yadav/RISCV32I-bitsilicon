@@ -19,22 +19,11 @@
 
 module fn_setUnit (
     input  wire [31:0] rs1, rs2,
-    input  wire [11:0] imm12,     // used for I
+    input  wire [31:0] imm32,     // used for I, extended input
     input  wire        opCode5,   // determines if R or I
     input  wire        funct3_0,  // if signed(0) or unsigned(1)
     output wire [31:0] result
 );
-
-    wire [31:0] imm32;
-    wire extending_bit;
-
-    mux2 #(.N(1)) sign_extend (
-        .d0(imm12[11]), .d1(1'b0),
-        .sel(funct3_0),
-        .Y(extending_bit)
-    );
-
-    assign imm32 = {{20{extending_bit}}, imm12};
 
     wire [31:0] v2;
 
