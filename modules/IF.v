@@ -2,34 +2,43 @@
 
 module IF (
     input  wire        clk, rst,
-    input  wire [31:0] rs1_id, imm_id, imm12_id,
-    input  wire [ 1:0] pc_inc_select,
+    input  wire [31:0] rs1_id, imm_id,
+    input  wire        spec_type, is_spec,
     output wire [31:0] inst, pc          // PC for JAL, JALR intructions
 );
 
-    wire [31:0] pc_inc_mux, pc_inc_sub, new_pc;
+    wire [31:0] spec_add, inst_pre;
+    wire [5:0] new_op;
 
-    mux4 #(.N(32)) inc_mux (
-        .d0(32'h0000_0004), 
-        .d1(imm_id), 
-        .d2(rs1_id + imm_id), 
-        .d3(imm12_id),
-        .sel(pc_inc_select),
-        .Y(pc_inc_mux)
+    mux2 #(.N(32)) spec_sel (
+        .d0(imm_id), .d1(rs1_id + imm_id),
+        .sel(spec_type),
+        .Y(spec_add)
     );
 
-    assign pc_inc_sub = (|pc_inc_select) ? pc_inc_mux - 32'h0000_0004 : pc_inc_mux;
-    assign new_pc = pc + pc_inc_sub;
+    mux2 #(.N(32)) type_sel (
+        .d0(32'h0000_0004), .d1(spec_add - 32'h0000_0004),
+        .sel(is_spec),
+        .Y(spec_add)
+    );
 
     dFF #(.N(32)) pc_reg (
-        .D(new_pc),
+        .D(pc + spec_add),
         .clk(clk), .rst(rst),
         .Y(pc)
     );
 
     instMem im (
         .addr(pc),
-        .inst(inst)
+        .inst(inst_pre)
     );
+    
+    mux2 #(.N(6)) op_sel (
+        .d0(inst_pre[31:26]), .d1(6'b0),
+        .sel(is_spec),
+        .Y(new_op)
+    );
+
+    assign inst = {new_op, inst_pre[25:0]};
 
 endmodule

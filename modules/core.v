@@ -5,6 +5,7 @@ module core (
 );
 
     wire [31:0] inst_if, pc_if;
+    wire [31:0] inst_id, pc_id;
 
     IF inst_fetch (
         .clk(clk), .rst(rst),
@@ -13,6 +14,12 @@ module core (
         .imm12_id(),
         .pc_inc_select(2'b00),
         .inst(inst_if), .pc(pc_if)
+    );
+
+    dFF #(.N(64)) pip_ifid (
+        .D({inst_if, pc_if}),
+        .clk(clk), .rst(rst),
+        .Y({inst_id, pc_id})
     );
 
 endmodule
