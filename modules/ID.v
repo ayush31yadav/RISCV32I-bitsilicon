@@ -26,5 +26,21 @@ module ID (
     assign pc_sel_specType = isJALR;
 
     // ====================================
+    // regFile
+    // ====================================
+
+    wire [31:0] rs1, rs2;
+
+    regFile rF (
+        .data_write,
+        .reg_read_1(inst[19:15]), 
+        .reg_read_2(inst[24:20]), 
+        .reg_write(inst[11:7]),
+        .clk(clk),
+        .write_en,
+        .data_read1(rs1), .data_read2(rs2) 
+    );
+
+
 
 endmodule
