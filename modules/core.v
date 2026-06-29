@@ -84,7 +84,7 @@ module core (
         .rd(rd_idex)
     );
 
-    dFF #(.N(119)) pip_idex (
+    dFF #(.N(180)) pip_idex (
         .D({pc_id, rs1_idex, rs2_idex, imm20_idex, imm_ext_idex, isI_idex, toggle_idex,
         calc_type_idex, func_sel_idex, write_en_mem_idex, read_en_mem_idex, write_size_mem_idex,
         read_size_mem_idex, read_us_mem_idex, write_rd_idex, rd_idex}),
