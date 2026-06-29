@@ -133,7 +133,7 @@ module ID (
             end
             7'b1101111 : begin
                 // JAL
-                pc_sel_isSpec <= isBranch;
+                pc_sel_isSpec <= 1'b1;
                 pc_sel_specType <= 1'b0;
                 imm_if <= {{11{inst[31]}}, inst[31], inst[19:12], inst[20], inst[30:21], 1'b0};
 
@@ -146,9 +146,9 @@ module ID (
                 write_en_mem <= 1'b0;
                 read_en_mem <= 1'b0;
             end
-            7'b1101111 : begin
+            7'b1100111 : begin
                 // JALR
-                pc_sel_isSpec <= isBranch;
+                pc_sel_isSpec <= 1'b1;
                 pc_sel_specType <= 1'b1;
                 imm_if <= {{20{inst[31]}}, inst[31:20]};
 

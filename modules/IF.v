@@ -17,28 +17,28 @@ module IF (
     );
 
     mux2 #(.N(32)) type_sel (
-        .d0(32'h0000_0004), .d1(spec_add - 32'h0000_0004),
+        .d0(32'h0000_0004), .d1(spec_add),
         .sel(is_spec),
         .Y(add_amt)
     );
 
     dFF #(.N(32)) pc_reg (
         .D(pc + add_amt),
-        .clk(clk), .rst(rst),
+        .clk(~clk), .rst(rst),
         .Y(pc)
     );
 
     instMem im (
         .addr(pc),
-        .inst(inst_pre)
+        .inst(inst)
     );
     
-    mux2 #(.N(6)) op_sel (
-        .d0(inst_pre[31:26]), .d1(6'b0),
-        .sel(is_spec),
-        .Y(new_op)
-    );
+    // mux2 #(.N(7)) op_sel (
+    //     .d0(inst_pre[6:0]), .d1(7'b0),
+    //     .sel(is_spec),
+    //     .Y(new_op)
+    // );
 
-    assign inst = {new_op, inst_pre[25:0]};
+    // assign inst = {new_op, inst_pre[25:0]};
 
 endmodule
