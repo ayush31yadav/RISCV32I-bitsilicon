@@ -21,8 +21,8 @@ module regFile (
         end
     endgenerate
 
-    assign data_read1 = (|reg_read_1) ? r_out[32'h0000_0001 << reg_read_1] : 32'b0;
-    assign data_read2 = (|reg_read_2) ? r_out[32'h0000_0001 << reg_read_2] : 32'b0;
+    assign data_read1 = (|reg_read_1) ? r_out[reg_read_1] : 32'b0;
+    assign data_read2 = (|reg_read_2) ? r_out[reg_read_2] : 32'b0;
 
     assign w_en = 32'h0000_0001 << (write_en ? reg_write : 32'b0);
 
