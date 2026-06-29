@@ -56,12 +56,15 @@ module core (
     wire [ 4:0] rd_ex;
 
     wire [31:0] new_val_rd;
-    wire        write_to_rd;
+    wire        write_en_rd;
+    wire [ 4:0] write_to_rd;
 
     ID inst_decode (
+        .clk(clk),
         .inst(inst_id),
         .data_write(new_val_rd),
-        .write_en(write_to_rd),
+        .write_en(write_en_rd),
+        .write_to(write_to_rd),
 
         .rs1_if(rs1_idif),
         .imm_if(imm_idif),
@@ -151,6 +154,7 @@ module core (
         .Y(new_val_rd)
     );
 
-    assign write_to_rd = read_en_mem_wb | write_rd_wb;
+    assign write_en_rd = read_en_mem_wb | write_rd_wb;
+    assign write_to_rd = rd_wb;
 
 endmodule

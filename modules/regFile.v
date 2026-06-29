@@ -13,7 +13,7 @@ module regFile (
 
     generate
         for (genvar i = 1; i < 32; i = i + 1) begin
-            dReg #(.N(32)) (
+            dReg #(.N(32)) D (
                 .D(data_write),
                 .clk(clk), .write_en(w_en[i]),
                 .Y(r_out[i])

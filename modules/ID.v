@@ -1,9 +1,11 @@
 `timescale 1ns/1ps
 
 module ID (
+    input  wire        clk,
     input  wire [31:0] inst,
     input  wire [31:0] data_write,
     input  wire        write_en,
+    input  wire [ 4:0] write_to,
     // instruction fetch
     output wire [31:0] rs1_if, 
     output reg  [31:0] imm_if,
@@ -36,8 +38,8 @@ module ID (
         .data_write(data_write),
         .reg_read_1(inst[19:15]), 
         .reg_read_2(inst[24:20]), 
-        .reg_write(inst[11:7]),
-        .clk(clk),
+        .reg_write(write_to),
+        .clk(~clk),
         .write_en(write_en),
         .data_read1(rs1), .data_read2(rs2) 
     );
@@ -58,7 +60,7 @@ module ID (
 
     wire [6:0] opCode;
     assign opCode = inst[6:0];
-    assign imm20_ex = {{20{inst[31]}}, inst[31:12]};
+    assign imm20_ex = {inst[31:12], 20'b0};
     assign rd = inst[11:7];
     assign read_size_mem = inst[13:12];
     assign write_size_mem = inst[13:12];
@@ -177,6 +179,13 @@ module ID (
                 toggle_ex <= 1'b0;
                 write_rd <= 1'b1;
                 // ---
+                pc_sel_isSpec <= 1'b0;
+            end
+            7'b0000000 : begin
+                // NULL
+                write_en_mem <= 1'b0;
+                read_en_mem <= 1'b0;
+                write_rd <= 1'b0;
                 pc_sel_isSpec <= 1'b0;
             end
         endcase

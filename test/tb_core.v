@@ -14,7 +14,9 @@ module tb_core;
     end
 
     initial begin
-        #300 $finish;
+        rst <= 1;
+        #10 rst <= 0;
+        #50 $finish;
     end
 
 endmodule
