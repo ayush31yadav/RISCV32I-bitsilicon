@@ -106,9 +106,10 @@ module core (
     wire        write_en_mem, read_en_mem;
     wire [ 1:0] write_size_mem, read_size_mem;
     wire        read_us_mem, write_rd_mem;
-    wire [31:0] rd, rs2_mem;
+    wire [ 4:0] rd_mem;
+    wire [31:0] rs2_mem;
 
-    dFF #(.N(104)) pip_exmem (
+    dFF #(.N(77)) pip_exmem (
         .D({rd_val, write_en_mem_ex, read_en_mem_ex, write_size_mem_ex, read_size_mem_ex,
         read_us_mem_ex, write_rd_ex, rd_ex, rs2_ex}),
         .clk(clk), .rst(rst),
