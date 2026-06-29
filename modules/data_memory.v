@@ -17,7 +17,7 @@ module memory(
     reg [7:0] mem [255:0];
     
     integer i;
-    always @(posedge clk or posedge rst)
+    always @(negedge clk or posedge rst)
     begin 
         if (rst) begin
             for (i = 0; i < 256; i = i + 1)mem[i] <= 8'b0;
