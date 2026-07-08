@@ -60,7 +60,7 @@ module ID (
 
     wire [6:0] opCode;
     assign opCode = inst[6:0];
-    assign imm20_ex = {inst[31:12], 20'b0};
+    assign imm20_ex = {inst[31:12], 12'b0};
     assign rd = inst[11:7];
     assign read_size_mem = inst[13:12];
     assign write_size_mem = inst[13:12];
