@@ -10,7 +10,7 @@ module instMem (
 
     always @(*) begin
         case (addr)
-            32'h0000_0000 : inst <= 32'h0000_60B7; // LUI 6 to X1                    X1 = 0060 0000
+            32'h0000_0000 : inst <= 32'h0000_60B7; // LUI 6 to X1                    X1 = 0000 6000
             32'h0000_0004 : inst <= 32'h0000_6117; // AUIPC 6 to X2                  X2 = 0060 0004
             32'h0000_0008 : inst <= 32'h00A0_0193; // ADDI 10 to X0                  X3 = 0000 000A
             32'h0000_000c : inst <= 32'h00A0_0213; // ADDI 10 to X0                  X4 = 0000 000A
@@ -22,8 +22,8 @@ module instMem (
             32'h0000_0024 : inst <= 32'h0020_1423; // STORE X2[15:0] at M[8]    
             32'h0000_0028 : inst <= 32'h0000_0000; // NOP    
             32'h0000_002c : inst <= 32'h0000_0000; // NOP    
-            32'h0000_0030 : inst <= 32'h0000_2383; // LOAD M[0] word to X7           X7 = 0060 0000
-            32'h0000_0034 : inst <= 32'h0041_8A63; // JMP to 0050 using BEQ X3, X4
+            32'h0000_0030 : inst <= 32'h0000_2383; // LOAD M[0] word to X7           X7 = 0000 6000
+            32'h0000_0034 : inst <= 32'h0041_8A63; // JMP to 0048 using BEQ X3, X4
             32'h0000_0038 : inst <= 32'h0000_0000; // NOP
             32'h0000_003c : inst <= 32'h0000_0000; // NOP
             32'h0000_0040 : inst <= 32'h0000_0000; // NOP
