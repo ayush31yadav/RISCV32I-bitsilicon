@@ -1,40 +1,4 @@
-`timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date: 18.06.2026 10:44:32
-// Design Name: 
-// Module Name: divide
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
-// 
-// Dependencies: 
-// 
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-// 
-//////////////////////////////////////////////////////////////////////////////////
-
-
-// ============================================================
-//  riscv_divide.v
-//  RISC-V RV32M - Signed / Unsigned Iterative Divider
-//
-//  Algorithm : Restoring iterative division (32 cycles)
-//  Outputs   : quotient and remainder (always both valid)
-//  Caller    : muxes quotient (DIV/DIVU) or remainder (REM/REMU)
-//
-//  Edge cases (per RISC-V spec):
-//    - Division by zero  → quotient = 0xFFFFFFFF, remainder = dividend
-//    - INT_MIN / -1      → quotient = 0x80000000, remainder = 0x00000000
-//
-//  Synthesizable: all regs at module level, no variable
-//                 declarations inside always blocks
-// ============================================================
+`timescale 1ns/1ps
 
 module divide (
     input clk,

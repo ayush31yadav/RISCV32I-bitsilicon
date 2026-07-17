@@ -4,6 +4,7 @@ module regFile (
     input  wire [31:0] data_write,
     input  wire [ 4:0] reg_read_1, reg_read_2, reg_write,
     input  wire        clk,
+    input  wire        rst,
     input  wire        write_en,
     output wire [31:0] data_read1, data_read2 
 );
@@ -15,7 +16,7 @@ module regFile (
         for (genvar i = 1; i < 32; i = i + 1) begin
             dReg #(.N(32)) D (
                 .D(data_write),
-                .clk(clk), .write_en(w_en[i]),
+                .clk(clk), .rst(rst),.write_en(w_en[i]),
                 .Y(r_out[i])
             );
         end
@@ -25,5 +26,8 @@ module regFile (
     assign data_read2 = (|reg_read_2) ? r_out[reg_read_2] : 32'b0;
 
     assign w_en = 32'h0000_0001 << (write_en ? reg_write : 32'b0);
-
+    always @(posedge clk) begin
+        if (write_en && (|reg_write))
+            $display("%0t REGWRITE x%0d <= %h", $time, reg_write, data_write);
+    end
 endmodule

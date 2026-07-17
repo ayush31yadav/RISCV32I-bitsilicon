@@ -2,6 +2,7 @@
 
 module ID (
     input  wire        clk,
+    input  wire        rst,
     input  wire [31:0] inst,
     input  wire [31:0] data_write,
     input  wire        write_en,
@@ -39,7 +40,7 @@ module ID (
         .reg_read_1(inst[19:15]), 
         .reg_read_2(inst[24:20]), 
         .reg_write(write_to),
-        .clk(~clk),
+        .clk(~clk),.rst(rst),
         .write_en(write_en),
         .data_read1(rs1), .data_read2(rs2) 
     );
@@ -67,6 +68,17 @@ module ID (
     assign read_us_mem = inst[14];
 
     always @(*) begin
+            isI_ex          = 1'b0;
+    toggle_ex       = 1'b0;
+    calc_type_ex    = 2'b00;
+    func_sel_ex     = 3'b000;
+    imm_ext_ex      = 32'b0;
+    write_en_mem    = 1'b0;
+    read_en_mem     = 1'b0;
+    write_rd        = 1'b0;
+    pc_sel_isSpec   = 1'b0;
+    pc_sel_specType = 1'b0;
+    imm_if          = 32'b0;
         case (opCode)
             7'b0110011 : begin
                 // R calc
